@@ -5,7 +5,7 @@ build:
       build:
         - pip install pipenv
         - pipenv install
-  run:
-    command: pipenv run python app.py
-    network:
-      port: 5000
+run:
+  command: pipenv run python app.py
+  network:
+    port: 5000
