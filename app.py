@@ -35,7 +35,7 @@ def check_slash(handler):
     def slash_wrapper(*args, **kwargs):
         path = request.path
         if path[-1] == "/":
-            return redirect(path[0:-1])
+            return redirect(path[0:-1], 303)
         return handler(*args, **kwargs)
 
     return slash_wrapper
@@ -52,6 +52,7 @@ def assets_css(filename):
 
 
 @app.route("/blogs/<slug>")
+@app.route("/blogs/<slug>/")
 @check_slash
 def blogs_slug(slug):
     return wrapped_s3(f"blogs/{slug}/index.html")
@@ -60,6 +61,9 @@ def blogs_slug(slug):
 @app.route("/brews")
 @app.route("/shares")
 @app.route("/is")
+@app.route("/brews/")
+@app.route("/shares/")
+@app.route("/is/")
 @check_slash
 def pages():
     return wrapped_s3(f"{request.path.lstrip('/')}/index.html")
