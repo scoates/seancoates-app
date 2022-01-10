@@ -5,6 +5,8 @@ import boto3
 
 
 app = Flask("seancoates")
+app.url_map.strict_slashes = False
+
 s3 = boto3.client("s3")
 BUCKET = "seancoates-site-content"
 
