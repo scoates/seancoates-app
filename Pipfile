@@ -6,8 +6,13 @@ name = "pypi"
 [packages]
 flask = "*"
 boto3 = "*"
+gunicorn = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+httpd = "gunicorn app:app --bind 0.0.0.0:8080"
+
