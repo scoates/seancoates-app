@@ -6,6 +6,6 @@ build:
         - pip install pipenv
         - pipenv install
 run:
-  command: pipenv run python app.py
+  command: pipenv run httpd
   network:
     port: 8080
