@@ -3,6 +3,10 @@ import functools
 from flask import Flask, Response, request, abort, redirect
 import boto3
 
+import click
+
+# remove styles
+click.style = lambda text, *args, **kwargs: text
 
 app = Flask("seancoates")
 app.url_map.strict_slashes = False
@@ -21,11 +25,11 @@ def fetch_from_s3(path):
 
 def wrapped_s3(path, content_type="text/html; charset=utf-8"):
     if request.headers.get("Host") in REDIRECT_HOSTS:
-        return redirect("https://seancoates.com/")
+        return redirect("https://seancoates.com/", 302)
 
     try:
         data = fetch_from_s3(path)
-        return Response(data, headers={"Content-Type": content_type}, status=200,)
+        return Response(data, headers={"Content-Type": content_type}, status=200)
     except s3.exceptions.NoSuchKey:
         abort(404)
 
@@ -35,7 +39,7 @@ def check_slash(handler):
     def slash_wrapper(*args, **kwargs):
         path = request.path
         if path[-1] == "/":
-            return redirect(path[0:-1], 303)
+            return redirect(path[0:-1], 302)
         return handler(*args, **kwargs)
 
     return slash_wrapper
